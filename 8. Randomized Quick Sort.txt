@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <limits.h>
+#include <stdlib.h>
+
+int random_in_range(int start,int end){
+    return start + rand()%(end-start+1);
+}
+
+void swap(int *a, int *b){
+    int c = *a;
+    *a = *b;
+    *b = c;
+}
+
+int partition(int arr[],int low,int high){
+    int x = random_in_range(low,high-1);
+    swap(&arr[x],&arr[low]);
+    int pivot = arr[low];
+    int i=low,j=high;
+    while(i<j){
+        do{
+            i++;
+        }while(arr[i]<=pivot);
+        do{
+            j--;
+        }while(arr[j]>pivot);
+        if(i<j) swap(&arr[i], &arr[j]);
+    }
+    swap(&arr[low], &arr[j]);
+    return j;
+}
+
+void quick_sort(int arr[],int low,int high){
+    int j;
+    if(low<high){
+        j = partition(arr,low,high);
+        quick_sort(arr,low,j);
+        quick_sort(arr,j+1,high);
+    }
+}
+
+int main(){
+    int arr[1000];
+    int capacity = 0;
+    
+    arr[capacity++]=3;
+    arr[capacity++]=1;
+    arr[capacity++]=7;
+    arr[capacity++]=9;
+    arr[capacity++]=19;
+    arr[capacity++]=14;
+    arr[capacity++]=5;
+    arr[capacity++]=6;
+    arr[capacity++]=2;
+    arr[capacity++]=4;
+    
+    arr[capacity]=INT_MAX;
+    printf("Unsorted array:\t");
+    for(int i=0;i<capacity;i++){
+        printf("%d ",arr[i]);
+    }
+    printf("\n");
+    quick_sort(arr,0,capacity);
+    printf("Sorted array:\t");
+    for(int i=0;i<capacity;i++){
+        printf("%d ",arr[i]);
+    }
+    printf("\n");
+}
+

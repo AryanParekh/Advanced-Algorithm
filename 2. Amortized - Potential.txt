@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+int main()
+{
+    int c = 0,n;
+    int dynamic_array[1000];
+    int logical_size = 0;
+    int capacity = 1;
+    int cost;
+    int total_cost = 0;
+    
+    int potential_costs[1000];
+    int capacitites[1000];
+    int actual_cost[1000];
+    while(c!=2){
+        printf("\n1-Insertion\n2-Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d",&c);
+        if(c==1){
+            if(logical_size==capacity){
+                cost=capacity+1;
+                capacity=capacity*2;
+            }
+            else{
+                cost=1;
+            }
+            printf("Enter element to be inserted: ");
+            scanf("%d",&n);
+            dynamic_array[logical_size]=n;
+            capacitites[logical_size]=capacity;
+            actual_cost[logical_size]=cost;
+            potential_costs[logical_size]=actual_cost[logical_size]+1;
+            total_cost=total_cost+potential_costs[logical_size];
+            logical_size+=1;
+            printf("\nArray: [ ");
+            for(int i=0;i<logical_size;i++){
+                printf("%d ",dynamic_array[i]);
+            }
+            for(int i=0;i<(capacity-logical_size);i++){
+                printf("_ ");
+            }
+            printf(" ]\n");
+            printf("\nStep\tCapacity\tCost\tPotential Cost\n");
+            for(int i=0;i<logical_size;i++){
+                printf("%d\t%d\t\t%d\t%d\n",i+1,capacitites[i],actual_cost[i],potential_costs[i]);
+            }
+        }
+        else{
+            break;
+        }
+    }
+    printf("\nTotal Steps (n) = %d",logical_size);
+    printf("\nTotal Cost (Σc) = %d",total_cost);
+    printf("\nTherefore, Amortized Cost = Σc/n = %f",(1.0*total_cost)/logical_size);
+    return 0;
+}

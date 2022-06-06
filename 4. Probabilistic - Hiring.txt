@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Candidate{
+    int id,rank;
+};
+
+int random_in_range(int start,int end){
+    return start + rand()%(end-start+1);
+}
+
+int hiring_firing_candidates(struct Candidate c[],struct Candidate current,int count,int ic,int hc){
+    int i;
+    int interview_cost=0;
+    int hiring_cost=0;
+    int hired_candidates=0;
+    for(i=0;i<count;i++){
+        printf("Current Candidate: id=%d,rank=%d\n",current.id,current.rank);
+        printf("Interviewed Candidate: id=%d,rank=%d\n",c[i].id,c[i].rank);
+        if(c[i].rank<current.rank){
+            current=c[i];
+            hiring_cost+=1;
+            hired_candidates+=1;
+            printf("Hired!\n");
+        }
+        else{
+            printf("Not Hired!\n");
+        }
+        printf("\n");
+        interview_cost+=1;
+    }
+    interview_cost = interview_cost*ic;
+    hiring_cost = hiring_cost*hc;
+    printf("\n\n");
+    printf("Total Interview Cost = %d\n",interview_cost);
+    printf("Total Hiring Cost = %d\n",hiring_cost);
+    printf("Total Cost = %d\n",hiring_cost+interview_cost);
+    return hired_candidates;
+}
+
+int main()
+{
+    int i,count=0,ic,hc,hired_candidates;
+    struct Candidate c[100];
+    struct Candidate current;
+    printf("Enter no. of candidates: ");
+    scanf("%d",&count);
+    current.id=0;
+    current.rank=500+count+1;
+    printf("Enter cost of 1 interview: ");
+    scanf("%d",&ic);
+    printf("Enter cost of hiring 1 candidate: ");
+    scanf("%d",&hc);
+    printf("\n");
+    for(i=0;i<count;i++){
+        c[i].id=i+1;
+        c[i].rank=random_in_range(500,500+count);
+    }
+    hired_candidates = hiring_firing_candidates(c,current,count,ic,hc);
+    printf("\nTotal candidates: %d",count);
+    printf("\nTotal candidates hired: %d",hired_candidates);
+    printf("\nProbability of being hired: %f",(1.0*hired_candidates)/count);
+    return 0;
+}
